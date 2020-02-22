@@ -19,7 +19,18 @@ type Flow struct {
 	Version          int    //版本号
 	OutputParameters string
 	InputParameters  string //输入参数列表，用于记录工作流所需要的输入，可选
-	Tasks            []Task //任务定义
+	Tasks            []*Task //任务定义
+}
+
+//通过任务名称，获取task的定义
+func (this *Flow)GetTask(tname string) *Task{
+	for _,t:=range(this.Tasks) {
+		if t.TaskName==tname {
+			return t
+		}
+	}
+
+	return nil
 }
 
 type Task struct {
@@ -47,6 +58,7 @@ type FlowInstance struct {
 	Id      string //实例唯一ID
 	Name    string //对应的流程名称
 	Version int    //对应的流程版本
+	task TaskInstance //当前任务节点
 }
 
 //任务实例
